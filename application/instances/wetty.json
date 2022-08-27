@@ -1,0 +1,72 @@
+{
+  "size": "MICRO",
+  "deploymentStrategy": "RollingUpdate",
+  "lbType": "internal",
+  "elbIdleTimeoutSeconds": 86400,
+  "secretFileMounts": [],
+  "protocolGroup": "tcp",
+  "scaling": {
+    "hpaEnabled": true,
+    "hpaMinReplicas": 1,
+    "hpaMaxReplicas": 1,
+    "hpaMetricThreshold": 60
+  },
+  "liveness": {
+    "enableLivenessTCP": true,
+    "livenessPort": 3000,
+    "livenessInitialDelay": 30,
+    "livenessTimeout": 10,
+    "livenessFailureThreshold": 20,
+    "livenessPeriod": 10,
+    "livenessSuccessThreshold": 1
+  },
+  "readiness": {
+    "enableReadinessTCP": true,
+    "readinessInitialDelay": 30,
+    "readinessFailureThreshold": 20,
+    "readinessSuccessThreshold": 1,
+    "readinessPort": 3000,
+    "readinessTimeout": 10,
+    "readinessPeriod": 10
+  },
+  "ports": [
+    {
+      "name": "http",
+      "containerPort": 3000,
+      "lbPort": 3000
+    }
+  ],
+  "build": {
+    "ci": "external_image",
+    "external_image": "313496281593.dkr.ecr.us-east-1.amazonaws.com/wetty-app:6c9d009-10"
+  },
+  "credentialRequests": {
+    "dbs": {
+      "mysql": [],
+      "mongo": []
+    },
+    "queues": {
+      "rabbitmq": []
+    },
+    "cloud": []
+  },
+  "environmentVariables": {
+    "static": {},
+    "dynamic": {}
+  },
+  "k8s_service_names": [],
+  "ingress_rules": [
+    {
+      "ingress": "tools",
+      "path": "/",
+      "targetPort": 3000,
+      "domainPrefix": "wetty."
+    }
+  ],
+  "resourceAllocationStrategy": "GENERAL_PURPOSE",
+  "command": [
+    "sh",
+    "-c",
+    "yarn start --sshhost wetty-ssh"
+  ]
+}

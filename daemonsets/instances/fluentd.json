@@ -1,0 +1,45 @@
+{
+  "disabled": false,
+  "size": "XS",
+  "deploymentStrategy": "RollingUpdate",
+  "elbIdleTimeoutSeconds": 300,
+  "secretFileMounts": [],
+  "requirereadonlysa": true,
+  "liveness": {
+  },
+  "readiness": {
+  },
+  "ports": [
+  ],
+  "build": {
+    "ci": "external_image",
+    "external_image": "313496281593.dkr.ecr.us-east-1.amazonaws.com/fluentd-efs:new"
+  },
+  "credentialRequests": {
+    "dbs": {
+      "mysql": [],
+      "mongo": []
+    },
+    "queues": {
+      "rabbitmq": []
+    },
+    "cloud": [
+    ]
+  },
+  "environmentVariables": {
+    "static": {
+      "FLUENTD_ARGS": "--no-supervisor -v"
+    },
+    "dynamic": {}
+  },
+  "infraCritical": true,
+  "k8s_service_names": [],
+  "nfs": [
+    {
+      "name": "logs",
+      "path": "/var/log/efs"
+    }
+  ],
+  "resourceAllocationStrategy": "CPU_INTENSIVE",
+  "priorityClassName": "infra-critical-daemonset"
+}

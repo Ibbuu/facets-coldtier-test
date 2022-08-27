@@ -1,0 +1,83 @@
+{
+  "size": "LARGE",
+  "deploymentStrategy": "Recreate",
+  "lbType": "internal",
+  "elbIdleTimeoutSeconds": 300,
+  "secretFileMounts": [],
+  "protocolGroup": "tcp",
+  "scaling": {
+    "hpaEnabled": false,
+    "hpaMinReplicas": 1,
+    "hpaMaxReplicas": 1,
+    "hpaMetricThreshold": 60
+  },
+  "liveness": {
+    "enableLivenessTCP": false,
+    "livenessPort": 22,
+    "livenessInitialDelay": 60,
+    "livenessTimeout": 1,
+    "livenessFailureThreshold": 5,
+    "livenessPeriod": 30,
+    "livenessSuccessThreshold": 1
+  },
+  "readiness": {
+    "enableReadinessTCP": false,
+    "readinessInitialDelay": 60,
+    "readinessFailureThreshold": 5,
+    "readinessSuccessThreshold": 1,
+    "readinessPort": 22,
+    "readinessTimeout": 1,
+    "readinessPeriod": 30
+  },
+  "ports": [
+    {
+      "name": "ssh",
+      "containerPort": 22,
+      "lbPort": 22
+    }
+  ],
+  "build": {
+    "ci": "external_image",
+    "external_image": "313496281593.dkr.ecr.us-east-1.amazonaws.com/wetty-ssh-host:30a4b00-16"
+  },
+  "credentialRequests": {
+    "dbs": {
+      "mysql" : [
+      ],
+      "mongo" : []
+    },
+    "queues": {
+      "rabbitmq" : []
+    },
+    "cloud": [
+    ]
+  },
+  "environmentVariables": {
+    "static": {
+    },
+    "dynamic": {
+    }
+  },
+  "k8s_service_names" : [],
+  "ingress_rules" : [],
+  "resourceAllocationStrategy": "CPU_INTENSIVE",
+  "persistentVolumeClaims" : [
+    {
+      "name": "data",
+      "mountPath": "data",
+      "accessMode": "ReadWriteOnce",
+      "storageSize": "250"
+    }
+  ],
+  "mountLogsVolume": false,
+  "nfs": [
+    {
+      "name": "logs",
+      "path": "/var/log/efs"
+    },
+    {
+      "name": "logs-cold",
+      "path": "/var/log/efs-cold"
+    }
+  ]
+}

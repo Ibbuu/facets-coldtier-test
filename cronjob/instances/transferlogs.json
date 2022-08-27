@@ -1,0 +1,41 @@
+{
+  "disabled": false,
+  "size": "S",
+  "secretFileMounts": [],
+  "build": {
+    "ci": "external_image",
+    "external_image": "ibbuu/log_removal:5"
+  },
+  "schedule": "40 18 * * *",
+  "credentialRequests": {
+    "dbs": {
+      "mysql" : [
+      ],
+      "mongo" : []
+    },
+    "queues": {
+      "rabbitmq" : []
+    },
+    "cloud": [
+      
+    ]
+  },
+  "nfs": [
+    {
+      "name": "logs",
+      "path": "/var/log/backup-log/"
+    },
+    {
+      "name": "logs-cold",
+      "path": "/var/log/backup-log-cold/"
+    }
+  ],
+  "environmentVariables": {
+    "static": {
+      
+    },
+    "dynamic": {
+     
+    }
+  }
+}

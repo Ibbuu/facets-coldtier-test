@@ -1,0 +1,8 @@
+{
+  "disabled": false,
+  "throughput_mode": "bursting",
+  "provisioned_throughput_in_mibps": "75",
+  "performance_mode": "generalPurpose",
+  "lifecycle_transition_to_ia": "AFTER_14_DAYS",
+  "storage_size_GB": "500"
+}
